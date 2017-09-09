@@ -1,9 +1,6 @@
 import React from 'react';
 
 export default class BookCover extends React.Component {
-  onSelectButton = (e) => {
-    this.props.onSelectBook( this.props.data);
-  };
   render = () => {
     const book = this.props.data;
     const wrapper = {
@@ -22,7 +19,7 @@ export default class BookCover extends React.Component {
     const image_url = book.cover_olid?book.cover_url_m:"http://via.placeholder.com/180x180?text=noimage";
     return (
       <div style={wrapper}>
-        <button type="button" onClick={this.onSelectButton} >select</button>
+        {this.props.children}
         <span style={text_style}>{book.title}</span>
         <img src={image_url} alt='no img' />
       </div>
