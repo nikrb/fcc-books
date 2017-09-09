@@ -1,5 +1,6 @@
 import React from 'react';
-import SettingsForm from '../components/SettingsForm';
+import UserDetailForm from '../components/settings/UserDetailForm';
+import PasswordForm from '../components/settings/PasswordForm';
 import Actions from './Actions';
 import Auth from '../modules/Auth';
 
@@ -15,7 +16,7 @@ export default class SettingsPage extends React.Component {
     user[name] = value;
     this.setState( {user});
   };
-  processForm = (event) => {
+  processPasswordForm = (event) => {
     event.preventDefault();
     const {password, new_password} = this.state.user;
     const email = Auth.getEmail();
@@ -35,10 +36,26 @@ export default class SettingsPage extends React.Component {
       });
     });
   };
+  processUserDetailForm = ( event) => {
+    event.preventDefault();
+    const {full_name, city, province} = this.state.user;
+    const email = Auth.getEmail();
+    Actions.postChangeUserDetail( { email, full_name, city, province})
+    .then( (response) => {
+      console.log( response);
+    })
+    .catch( (err) => {
+      console.error( "post user detail form failed:", err);
+    });
+  };
   render = () => {
     return (
-        <SettingsForm onSubmit={this.processForm} onChange={this.changeUser}
+      <div>
+        <UserDetailForm onSubmit={this.processUserDetailForm} onChange={this.changeUser}
           user={this.state.user} errors={this.state.errors} />
+        <PasswordForm onSubmit={this.processPasswordForm} onChange={this.changeUser}
+          user={this.state.user} errors={this.state.errors} />
+      </div>
     );
   };
 }

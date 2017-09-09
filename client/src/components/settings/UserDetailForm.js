@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default class SettingsForm extends React.Component {
+export default class UserDetailForm extends React.Component {
   static propTypes = {
     onSubmit: PropTypes.func,
     onChange: PropTypes.func,
@@ -15,22 +15,29 @@ export default class SettingsForm extends React.Component {
         <form action="/" onSubmit={onSubmit} >
           <h2>Change Password</h2>
           {errors.summary && <p className="error-message">{errors.summary}</p>}
-          <div>Current Password
+          <div>Full Name
             <div className="error-wrap">
               {errors.password && <p className="error-field">{errors.password}</p>}
-              <input type="password" name="password"
-                value={user.password} onChange={onChange} />
+              <input type="text" name="full_name"
+                value={user.full_name} onChange={onChange} />
             </div>
           </div>
-          <div>New Password
+          <div>City
             <div className="error-wrap">
-              {errors.new_password && <p className="error-field">{errors.new_password}</p>}
-              <input type="password" name="new_password"
-                value={user.new_password} onChange={onChange} />
+              {errors.password && <p className="error-field">{errors.password}</p>}
+              <input type="text" name="city"
+                value={user.city} onChange={onChange} />
+            </div>
+          </div>
+          <div>State/Province
+            <div className="error-wrap">
+              {errors.password && <p className="error-field">{errors.password}</p>}
+              <input type="text" name="province"
+                value={user.province} onChange={onChange} />
             </div>
           </div>
           <div style={{margin:"10px"}}>
-            <button type="submit" >Submit</button>
+            <button type="submit" name="user_detail_save" >Save Changes</button>
           </div>
         </form>
       </div>
