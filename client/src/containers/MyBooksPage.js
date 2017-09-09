@@ -42,7 +42,9 @@ export default class MyBooksPage extends React.Component {
       full_name: Auth.getFullName()
     };
     BookActions.addBook( {...book, owner})
-    .then( (res) => { console.log( res)});
+    .then( (res) => {
+      console.log( "add book response:", res);
+    });
     this.setState( {my_books, books:[]});
   };
   render = () => {
