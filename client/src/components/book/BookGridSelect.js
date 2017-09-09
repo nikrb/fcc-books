@@ -10,7 +10,7 @@ export default class BookGrid extends React.Component {
     const book_covers = this.props.books.map( (b,i) => {
       return (
         <BookCover key={i} data={b}>
-          <BookSelect onClick={this.onSelectButton} data={b} >select</BookSelect>
+          <BookSelect onClick={this.onSelectButton} data={b} >Add Book</BookSelect>
         </BookCover>
       );
     });
