@@ -5,7 +5,7 @@ import HomePage from './containers/HomePage';
 import LoginPage from './containers/LoginPage';
 import SignupPage from './containers/SignupPage';
 import SettingsPage from './containers/SettingsPage';
-import BookPage from './containers/BookPage';
+import MyBooksPage from './containers/MyBooksPage';
 import Auth from './modules/Auth';
 
 export default class App extends Component {
@@ -67,7 +67,7 @@ export default class App extends Component {
                 <LoginPage {...props} onLogin={this.login} />} />
             <Route path="/signup" component={SignupPage} />
             <AuthRoute path="/settings" component={SettingsPage} />
-            <AuthRoute path="/mybooks" component={BookPage} />
+            <AuthRoute path="/mybooks" component={MyBooksPage} />
             <Route path="*" render={props => <Redirect to='/' {...props} /> } />
           </Switch>
         </div>
