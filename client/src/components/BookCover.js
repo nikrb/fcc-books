@@ -7,10 +7,17 @@ export default class BookCover extends React.Component {
   render = () => {
     console.log( "book cover data:", this.props.data);
     const book = this.props.data;
+    const wrapper = {
+      display: "flex",
+      flexDirection: "column",
+      margin: "5px",
+      border: "1px solid lightgrey"
+    };
+    const image_url = book.cover_olid?book.cover_url_m:"http://via.placeholder.com/180x180";
     return (
-      <div>
-        <img src={book.cover_url} alt='no img' />
+      <div style={wrapper}>
         <button type="button" onClick={this.onSelectButton} >select</button>
+        <img src={image_url} alt='no img' />
       </div>
     );
   };
