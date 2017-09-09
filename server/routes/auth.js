@@ -166,4 +166,26 @@ router.post( '/change', (req, res, next) => {
   })(req, res, next);
 });
 
+router.put( '/user', (req, res) => {
+  const {email,full_name,city,province} = req.body;
+  User.findOne( {email}, function( err, user){
+    if( err || !user){
+      console.err( `failed to find user[${user}] error[${err}]`);
+      res.json( {action:"error", message:"user not found"});
+    } else {
+      user.full_name = full_name;
+      user.city = city;
+      user.province = province;
+      user.save( (err)=> {
+        if( err){
+          console.error( "update user details failed:", err);
+          res.json( {success:false, message:"user update failed"});
+        } else {
+          res.json( {success:true, user });
+        }
+      });
+    }
+  })
+});
+
 module.exports = router;
