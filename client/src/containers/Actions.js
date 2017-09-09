@@ -38,6 +38,18 @@ function postChangePassword( payload){
   .then( checkStatus)
   .then( parseJSON);
 }
+function postChangeUserDetail( payload) {
+  return fetch( '/auth/user', {
+    method: 'put',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify( payload)
+  })
+  .then( checkStatus)
+  .then( parseJSON);
+}
 
 function checkStatus(response) {
   if (response.status >= 200 && response.status < 300) {
@@ -54,5 +66,6 @@ function parseJSON(response) {
   return response.json();
 }
 
-const Actions = { postSignup, postLogin, postChangePassword};
+const Actions = { postSignup, postLogin,
+  postChangePassword, postChangeUserDetail};
 export default Actions;

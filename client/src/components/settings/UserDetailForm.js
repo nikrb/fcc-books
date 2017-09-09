@@ -13,7 +13,7 @@ export default class UserDetailForm extends React.Component {
     return (
       <div className="container" >
         <form action="/" onSubmit={onSubmit} >
-          <h2>Change Password</h2>
+          <h2>Change Detail</h2>
           {errors.summary && <p className="error-message">{errors.summary}</p>}
           <div>Full Name
             <div className="error-wrap">

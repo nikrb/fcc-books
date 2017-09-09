@@ -17,7 +17,17 @@ export default class App extends Component {
     if( Auth.isUserAuthenticated()){
       const username = Auth.getUsername();
       const email = Auth.getEmail();
-      this.setState( { user : {name: username?username:"", email: email?email:""}});
+      const full_name = Auth.getFullName();
+      const city = Auth.getCity();
+      const province = Auth.getProvince();
+      this.setState( { user : {
+          name: username?username:"",
+          email: email?email:"",
+          full_name: full_name?full_name:"",
+          city: city?city:"",
+          province: province?province:""
+        }
+      });
     }
   };
   logout = () => {

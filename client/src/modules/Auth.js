@@ -12,14 +12,64 @@ const isUserAuthenticated = () => {
 const deauthenticateUser = () => {
   localStorage.removeItem( 'token');
   localStorage.removeItem( 'name');
+  localStorage.removeItem( 'email');
+  localStorage.removeItem( 'full_name');
+  localStorage.removeItem( 'cit');
+  localStorage.removeItem( 'province');
 };
-const getToken = () => { return localStorage.getItem( 'token'); };
-const getUsername = () => { return localStorage.getItem( 'name'); };
-const getEmail = () => { return localStorage.getItem( 'email'); };
-const getFullName = () => { return localStorage.getItem( 'full_name'); };
-const getCity = () => { return localStorage.getItem( 'city'); };
-const getProvince = () => { return localStorage.getItem( 'province');};
+const getToken = () => {
+  const ret = localStorage.getItem( 'token');
+  if( ret === 'undefined'){
+    return "";
+  }
+  return ret;
+};
+const getUsername = () => {
+  const ret = localStorage.getItem( 'name');
+  if( ret === 'undefined'){
+    return "";
+  }
+  return ret;
+};
+const getEmail = () => {
+  const ret = localStorage.getItem( 'email');
+  if( ret === 'undefined'){
+    return "";
+  }
+  return ret;
+};
+const getFullName = () => {
+  const ret = localStorage.getItem( 'full_name')||"";
+  if( ret === 'undefined'){
+    return "";
+  }
+  return ret;
+};
+const setFullName = ( name) => {
+  localStorage.setItem( 'full_name', name);
+};
+const getCity = () => {
+  const ret = localStorage.getItem( 'city');
+  if( ret === 'undefined'){
+    return "";
+  }
+  return ret;
+};
+const setCity = ( city) => {
+  localStorage.setItem( 'city', city);
+};
+const getProvince = () => {
+  const ret = localStorage.getItem( 'province');
+  if( ret === 'undefined'){
+    return "";
+  }
+  return ret;
+};
+const setProvince = ( prov) => {
+  localStorage.setItem( 'province', prov);
+};
 
 export default { authenticateUser, isUserAuthenticated, deauthenticateUser,
                   getToken, getUsername, getEmail,
-                  getFullName, getCity,getProvince};
+                  getFullName, getCity,getProvince,
+                  setFullName, setCity,setProvince};
