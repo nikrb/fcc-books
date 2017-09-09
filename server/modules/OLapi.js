@@ -11,5 +11,5 @@ exports.getBook = ( title) => {
   });
 };
 exports.getCoverUrl = ( cover_id) => {
-  return `http://covers.openlibrary.org/b/olid/${cover_id}-M.jpg`; // ?default=false`;
+  return `http://covers.openlibrary.org/b/olid/${cover_id}`; // ?default=false`;
 };
