@@ -2,7 +2,7 @@ import React from 'react';
 
 export default class BookCover extends React.Component {
   onSelectButton = (e) => {
-    this.props.onSelectBook( this.props.book);
+    this.props.onSelectBook( this.props.data);
   };
   render = () => {
     console.log( "book cover data:", this.props.data);
