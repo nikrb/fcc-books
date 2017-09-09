@@ -9,8 +9,10 @@ export default class BookSearch extends React.Component {
       <div>
         <input type="text" value={this.props.book_title}
           onChange={this.props.onBookTitleChange}
-          onFocus={this.onFocus}/>
-        <button type="button" onClick={this.props.onFindBook} >Find</button>
+          onFocus={this.onFocus} />
+        <button type="button" onClick={this.props.onFindBook}
+          disabled={this.props.disabled} >Find</button>
+        <button type="button" onClick={this.props.onClear} >Clear</button>
       </div>
     );
   };

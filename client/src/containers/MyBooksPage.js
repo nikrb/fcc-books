@@ -47,6 +47,9 @@ export default class MyBooksPage extends React.Component {
     });
     this.setState( {my_books, books:[]});
   };
+  onClearSearch = () => {
+    this.setState( {books: [], is_loading:false});
+  };
   render = () => {
     const wrapper = {
       margin: "10px",
@@ -60,14 +63,17 @@ export default class MyBooksPage extends React.Component {
         <h1>My Books</h1>
         <BookSearch book_title={this.state.book_title}
           onBookTitleChange={this.onBookTitleChange}
-          onFindBook={this.onFindBook}/>
+          onFindBook={this.onFindBook}
+          onClear={this.onClearSearch}
+          disabled={this.state.is_loading}/>
         {this.state.is_loading?
           <p><img src={Loader} alt="Please wait ...." /></p>
           :<BookGridSelect books={this.state.books} onSelectBook={this.onSelectBook}/>
         }
-        {this.state.my_books.length?
+        { // only show my books if I have books and not currently searching
+          this.state.my_books.length && this.state.books.length === 0?
           <BookGrid books={this.state.my_books} />
-          :<p>You have no books yet</p>
+          :null
         }
       </div>
     );
