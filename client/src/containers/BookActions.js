@@ -13,6 +13,33 @@ const findBook = ( payload) => {
   .then( checkStatus)
   .then( parseJSON);
 };
+const getMyBooks = () => {
+  const email = Auth.getEmail();
+  return fetch( '/api/mybooks', {
+    method: 'post',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': `bearer ${Auth.getToken()}`
+    },
+    body: JSON.stringify( {email})
+  })
+  .then( checkStatus)
+  .then( parseJSON);
+};
+const addBook = (payload) => {
+  return fetch( '/api/book', {
+    method: 'post',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': `bearer ${Auth.getToken()}`
+    },
+    body: JSON.stringify( payload)
+  })
+  .then( checkStatus)
+  .then( parseJSON);
+};
 
 const updateUser = (payload) => {
   return fetch( '/api/user', {
@@ -43,4 +70,4 @@ function parseJSON(response) {
   return response.json();
 }
 
-export default { findBook, updateUser};
+export default { findBook, updateUser, getMyBooks, addBook};

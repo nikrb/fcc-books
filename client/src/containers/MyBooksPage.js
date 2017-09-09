@@ -1,6 +1,7 @@
 import React from 'react';
 import {BookSearch,BookGrid,BookGridSelect} from '../components/book';
 import BookActions from './BookActions';
+import Auth from '../modules/Auth';
 import Loader from '../images/loader.gif';
 
 export default class MyBooksPage extends React.Component {
@@ -9,7 +10,18 @@ export default class MyBooksPage extends React.Component {
     // books returned from open library search
     books: [],
     book_title: "",
-    is_loading: false
+    is_loading: false,
+    is_first_time: true
+  };
+  componentWillMount = () => {
+    BookActions.getMyBooks()
+    .then( (response) => {
+      if( response.success){
+        this.setState( {my_books: response.books, is_first_time:false});
+      } else {
+        console.error( "get my books failed:", response);
+      }
+    });
   };
   onBookTitleChange = (e) => {
     this.setState( {book_title: e.target.value});
@@ -24,6 +36,13 @@ export default class MyBooksPage extends React.Component {
   onSelectBook = (book) => {
     console.log( "book cover selected:", book);
     const my_books = [...this.state.my_books, book];
+    const owner = {
+      email: Auth.getEmail(),
+      name: Auth.getUsername(),
+      full_name: Auth.getFullName()
+    };
+    BookActions.addBook( {...book, owner})
+    .then( (res) => { console.log( res)});
     this.setState( {my_books, books:[]});
   };
   render = () => {
@@ -42,11 +61,12 @@ export default class MyBooksPage extends React.Component {
           onFindBook={this.onFindBook}/>
         {this.state.is_loading?
           <p><img src={Loader} alt="Please wait ...." /></p>
-          :this.state.books.length?
-            <BookGridSelect books={this.state.books} onSelectBook={this.onSelectBook}/>
-            :<p>No Results</p>
+          :<BookGridSelect books={this.state.books} onSelectBook={this.onSelectBook}/>
         }
-        <BookGrid books={this.state.my_books} />
+        {this.state.my_books.length?
+          <BookGrid books={this.state.my_books} />
+          :<p>You have no books yet</p>
+        }
       </div>
     );
   };
