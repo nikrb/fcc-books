@@ -7,7 +7,11 @@ const UserSchema = new mongoose.Schema({
     index: { unique: true}
   },
   password: String,
-  name: String
+  name: String,
+  fullname: String,
+  city: String,
+  // let's not use state eh!
+  province: String
 });
 
 
