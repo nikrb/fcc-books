@@ -1,6 +1,22 @@
 import Auth from '../modules/Auth';
 import {checkStatus,parseJSON} from '../modules/util';
 
+// get books paged
+const getBooks = ( payload) => {
+  return fetch( '/api/books', {
+    method: 'post',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': `bearer ${Auth.getToken()}`
+    },
+    body: JSON.stringify( payload)
+  })
+  .then( checkStatus)
+  .then( parseJSON);
+};
+
+// find a book from open library with search term
 const findBook = ( payload) => {
   return fetch( `/api/search`, {
     method: 'post',
@@ -56,4 +72,4 @@ const updateUser = (payload) => {
   .then( parseJSON);
 }
 
-export default { findBook, updateUser, getMyBooks, addBook};
+export default { findBook, updateUser, getBooks, getMyBooks, addBook};

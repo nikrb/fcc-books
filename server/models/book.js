@@ -27,6 +27,24 @@ BookSchema.statics.create  = function create( req_body, cb){
     if( cb) cb( err, {success, message});
   });
 }
+BookSchema.statics.getBooks = function getBooks( req_body, cb){
+  const that = this;
+  const {limit, offset} = req_body;
+  this.count({}, function( err, total_rows){
+    if( err) console.log( "book schema count failed:", err);
+    that.find( {})
+    .skip( offset)
+    .limit( limit)
+    .exec( function( err, books){
+      if( err || !books || books.length === 0){
+        console.error( "book get failed:", err);
+        if( cb) cb( err, {success:false, message: "books not found"});
+      } else {
+        if( cb) cb( null, { success: true, books, total_rows});
+      }
+    });
+  });
+}
 BookSchema.statics.getMyBooks = function getMyBooks( req_body, cb){
   console.log( "get my books:", req_body);
   const {email} = req_body;

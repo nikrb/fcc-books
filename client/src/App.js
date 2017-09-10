@@ -6,6 +6,7 @@ import LoginPage from './containers/LoginPage';
 import SignupPage from './containers/SignupPage';
 import SettingsPage from './containers/SettingsPage';
 import MyBooksPage from './containers/MyBooksPage';
+import TradePage from './containers/TradePage';
 import Auth from './modules/Auth';
 
 export default class App extends Component {
@@ -51,6 +52,7 @@ export default class App extends Component {
             <ul>
               <div className="nav-box">
                 <li><NavLink to="/" exact>Home</NavLink></li>
+                <li><NavLink to="/trade" >Trade</NavLink></li>
                 <li><NavLink to="/mybooks" >MyBooks</NavLink></li>
               </div>
               <div className="nav-box">
@@ -78,6 +80,7 @@ export default class App extends Component {
             <Route path="/signup" component={SignupPage} />
             <AuthRoute path="/settings" component={SettingsPage} />
             <AuthRoute path="/mybooks" component={MyBooksPage} />
+            <AuthRoute path="/trade" component={TradePage} />
             <Route path="*" render={props => <Redirect to='/' {...props} /> } />
           </Switch>
         </div>
