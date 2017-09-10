@@ -68,7 +68,9 @@ export default class MyBooksPage extends React.Component {
           disabled={this.state.is_loading}/>
         {this.state.is_loading?
           <p><img src={Loader} alt="Please wait ...." /></p>
-          :<BookGridSelect books={this.state.books} onSelectBook={this.onSelectBook}/>
+          : <BookGridSelect books={this.state.books} onSelectBook={this.onSelectBook}>
+              Add Book
+            </BookGridSelect>
         }
         { // only show my books if I have books and not currently searching
           this.state.my_books.length && this.state.books.length === 0?
