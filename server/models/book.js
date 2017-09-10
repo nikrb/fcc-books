@@ -12,10 +12,26 @@ const BookSchema = new mongoose.Schema({
   cover_url_m: String
 });
 
+BookSchema.statics.create  = function create( req_body, cb){
+  console.log( "add book:", req.body);
+  const {owner, title, cover_olid, cover_url_m} = req.body;
+  const book = new Book( {owner, title, cover_olid, cover_url_m});
+  book.save( (err) => {
+    let message = "book added",
+        success = true;
+    if( err){
+      console.error( "book save failed:", err);
+      success = false;
+      message = "book not saved";
+    }
+    if( cb) cb( err, {success, message});
+  });
+}
 BookSchema.statics.getMyBooks = function getMyBooks( req_body, cb){
   console.log( "get my books:", req_body);
   const {email} = req_body;
   console.log( "get books for owner:", email);
+  // FIXME: is this correct?
   this.find( {'owner.email':email}, function( err, books){
     if( err || !books || books.length === 0){
       if( cb) cb( err, {success:false, message: "books not found"});
