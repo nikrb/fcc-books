@@ -1,4 +1,5 @@
 const authenticateUser = ( user) => {
+  localStorage.setItem( '_id', user._id);
   localStorage.setItem( 'token', user.token);
   localStorage.setItem( 'name', user.name);
   localStorage.setItem( 'email', user.email);
@@ -10,11 +11,12 @@ const isUserAuthenticated = () => {
   return localStorage.getItem( 'token') !== null;
 };
 const deauthenticateUser = () => {
+  localStorage.removeItem( '_id');
   localStorage.removeItem( 'token');
   localStorage.removeItem( 'name');
   localStorage.removeItem( 'email');
   localStorage.removeItem( 'full_name');
-  localStorage.removeItem( 'cit');
+  localStorage.removeItem( 'city');
   localStorage.removeItem( 'province');
 };
 const getToken = () => {
@@ -24,6 +26,13 @@ const getToken = () => {
   }
   return ret;
 };
+const get_id = () => {
+  let ret = localStorage.getItem( '_id');
+  if( ret === 'undefined'){
+    ret = "";
+  }
+  return ret;
+}
 const getUsername = () => {
   const ret = localStorage.getItem( 'name');
   if( ret === 'undefined'){
@@ -70,6 +79,6 @@ const setProvince = ( prov) => {
 };
 
 export default { authenticateUser, isUserAuthenticated, deauthenticateUser,
-                  getToken, getUsername, getEmail,
+                  getToken, get_id, getUsername, getEmail,
                   getFullName, getCity,getProvince,
                   setFullName, setCity,setProvince};
