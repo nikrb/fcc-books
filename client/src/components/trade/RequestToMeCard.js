@@ -9,25 +9,35 @@ export default class RequestToMeCard extends React.Component {
   };
   render = () => {
     const wrapper = {
-      position: "relative"
+      position: "relative",
+      width: "20em",
+      backgroundColor: "linen",
+      padding: "0.7em",
+      borderRadius: "1em"
     };
     const cross_box = {
+      cursor: "pointer",
       position: "absolute",
-      top: "0px",
-      right: "2em"
+      top: "0.5em",
+      right: "0.5em",
+      fontSize: "1.2em",
+      color: "tomato"
     };
     const tick_box = {
-        position: "absolute",
-        top: "0px",
-        right: "2em"
+      cursor: "pointer",
+      position: "absolute",
+      top: "0.5em",
+      right: "1.5em",
+      fontSize: "1.2em",
+      color: "springgreen"
     };
-    const cross_mark = String.fromCharCode( 10003);
-    const tick_mark = String.fromCharCode( 10060);
+    const tick_mark = String.fromCharCode( 10003);
+    const cross_mark = String.fromCharCode( 10007);
     return (
-      <div style={wrapper}>
-        {this.props.data.title}
+      <div style={wrapper} >
+        {this.props.text}
         <div style={cross_box} onClick={this.onCrossClicked}>{cross_mark}</div>
-        <div style={tick_box}>{tick_mark} onClick={this.onTickClicked}</div>
+        <div style={tick_box} onClick={this.onTickClicked}>{tick_mark}</div>
       </div>
     );
   };
