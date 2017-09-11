@@ -81,7 +81,7 @@ export default class SettingsPage extends React.Component {
       flexWrap: "wrap",
     };
     return (
-      <div>
+      <div className="App">
         <h1 style={{textAlign:"center"}}>Settings</h1>
         <div style={base_detail}>
           <span style={base_text}>Name: {this.state.user.name}</span>

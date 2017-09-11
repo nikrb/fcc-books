@@ -47,8 +47,10 @@ export default class SignupPage extends React.Component {
       );
     }
     return (
-      <SignupForm onSubmit={this.processForm} onChange={this.changeUser}
-        user={this.state.user} errors={this.state.errors} />
+      <div className="App">
+        <SignupForm onSubmit={this.processForm} onChange={this.changeUser}
+          user={this.state.user} errors={this.state.errors} />
+      </div>
     );
   };
 }

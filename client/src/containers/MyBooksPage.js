@@ -52,7 +52,8 @@ export default class MyBooksPage extends React.Component {
       margin: "10px",
       display: "flex",
       flexDirection: "column",
-      alignItems: "center"
+      alignItems: "center",
+      userSelect: "none"
     };
     return (
       <div style={wrapper}>
