@@ -12,6 +12,8 @@ export default class TradePage extends React.Component {
     books: [],
     my_requests: [],
     requests_to_me: [],
+    show_my_requests: false,
+    show_requests_to_me: false,
     limit: 3,
     current_page_no: 0,
     total_rows: 0
@@ -20,6 +22,17 @@ export default class TradePage extends React.Component {
     TradeActions.getMyRequests( {email:Auth.getEmail()})
     .then( (response) => {
       console.log( "get my requests:", response);
+      const requests = response.reduce((acc, trade) => {
+        if( trade.source_user.email === Auth.getEmail()){
+          acc.my_requests.push( trade);
+        }
+        // FIXME: testing
+        if( trade.target_user.email === Auth.getEmail()) {
+          acc.requests_to_me.push( trade);
+        }
+        return acc;
+      }, {my_requests:[],requests_to_me:[]});
+      this.setState( {...requests});
     });
     this.getPagedBooks(0);
   };
@@ -63,18 +76,27 @@ export default class TradePage extends React.Component {
       console.log( "cancel trade response:", response);
     });
   };
+  onMyTradeRequestsClicked = (e) => {
+    const {show_my_requests} = this.state;
+    this.setState( {show_my_requests:!show_my_requests, show_requests_to_me:false});
+  };
+  onTradeRequestsToMeClicked = (e) => {
+    const {show_requests_to_me} = this.state;
+    this.setState( {show_my_requests:false, show_requests_to_me: !show_requests_to_me});
+  };
   render = () => {
     const my_requests_style = {
-      display: "none"
+      display: this.state.show_my_requests?"block":"none"
     };
     const requests_to_me_style = {
-      display: "none"
+      display: this.state.show_requests_to_me?"block":"none"
     };
     const my_requests = this.state.my_requests.map( (mr, i) => {
-      return <RequestCard onCrossClicked={this.onCancelTrade} key={i} data={mr} />;
+      return <RequestCard key={i} data={mr} text={mr.book.title}
+        onCrossClicked={this.onCancelTrade} />;
     });
     const requests_to_me = this.state.requests_to_me.map( (rtm, i) => {
-      return (<RequestToMeCard key={i} data={rtm}
+      return (<RequestToMeCard key={i} data={rtm} text={rtm.book.title}
         onCrossClicked={this.onCancelTrade}
         onTickClicked={this.onAcceptTrade}
         />
@@ -85,12 +107,17 @@ export default class TradePage extends React.Component {
       flexDirection: "row",
       margin: "0px auto 2em"
     };
+    console.log( "requests to me count:", requests_to_me_style);
     return (
       <div className="App">
         <h1>Trade</h1>
         <div style={request_wrapper}>
-          <button type="button" >My Trade Requests</button>
-          <button type="button" >Trade Requests to me</button>
+          <button type="button" onClick={this.onMyTradeRequestsClicked}>
+            My Trade Requests
+          </button>
+          <button type="button" onClick={this.onTradeRequestsToMeClicked}>
+            Trade Requests to me
+          </button>
         </div>
         <div style={my_requests_style}>
           {my_requests}
