@@ -4,7 +4,6 @@ export default class RequestCard extends React.Component {
     this.props.onCrossClicked( this.props.data);
   };
   render = () => {
-    console.log( "request card props:", this.props);
     const wrapper = {
       position: "relative",
       width: "20em",
@@ -20,7 +19,7 @@ export default class RequestCard extends React.Component {
       fontSize: "1.2em",
       color: "tomato"
     };
-    const cross_mark = String.fromCharCode( 10007);
+    const cross_mark = String.fromCharCode( 10008);
     return (
       <div style={wrapper}>
         {this.props.text}

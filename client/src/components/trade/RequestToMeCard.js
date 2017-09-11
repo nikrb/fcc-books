@@ -31,8 +31,8 @@ export default class RequestToMeCard extends React.Component {
       fontSize: "1.2em",
       color: "springgreen"
     };
-    const tick_mark = String.fromCharCode( 10003);
-    const cross_mark = String.fromCharCode( 10007);
+    const tick_mark = String.fromCharCode( 10004);
+    const cross_mark = String.fromCharCode( 10008);
     return (
       <div style={wrapper} >
         {this.props.text}
