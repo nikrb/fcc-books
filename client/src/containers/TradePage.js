@@ -52,8 +52,13 @@ export default class TradePage extends React.Component {
       this.setState( {requests: this.state.requests.concat( response)});
     });
   };
+
   onCancelTrade = ( trade) => {
-    trade.status = "cancelled";
+    if( trade.source_user._id === Auth.get_id()){
+      trade.status = "cancelled";
+    } else {
+      trade.status = "rejected";
+    }
     this.saveTrade( trade)
     .then( (response) => {
       console.log( "save trade response:", response);
