@@ -8,10 +8,22 @@ export default class RequestToMeCard extends React.Component {
     this.props.onTickClicked( this.props.data);
   };
   render = () => {
+    let bg_colour;
+    switch( this.props.data.status){
+      case 'accepted':
+        bg_colour = "lightgreen";
+        break;
+      case 'rejected':
+        bg_colour = "tomato";
+        break;
+      default:
+        bg_colour = "linen";
+        break;
+    }
     const wrapper = {
       position: "relative",
       width: "20em",
-      backgroundColor: "linen",
+      backgroundColor: bg_colour,
       padding: "0.7em",
       borderRadius: "1em"
     };
