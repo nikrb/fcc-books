@@ -117,7 +117,8 @@ router.post( '/login', ( req, res, next) => {
       success: true,
       message: "Login success",
       token,
-      user: {name: userData.name}
+      user: {_id: userData._id, name: userData.name, email:userData.email,
+        full_name: userData.full_name, city: userData.city, province: userData.province}
     });
   })(req, res, next);
 });
@@ -158,7 +159,8 @@ router.post( '/change', (req, res, next) => {
             success: true,
             message: "Change success",
             token,
-            user: {name: user.name}
+            user: {_id: userData._id, name: userData.name, email:userData.email,
+              full_name: userData.full_name, city: userData.city, province: userData.province}
           });
         });
       }

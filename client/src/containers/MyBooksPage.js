@@ -10,14 +10,14 @@ export default class MyBooksPage extends React.Component {
     // books returned from open library search
     books: [],
     book_title: "",
-    is_loading: false,
-    is_first_time: true
+    is_loading: false
   };
   componentWillMount = () => {
-    BookActions.getMyBooks()
+    BookActions.getMyBooks( )
     .then( (response) => {
       if( response.success){
-        this.setState( {my_books: response.books, is_first_time:false});
+        console.log( "get my books response:", response);
+        this.setState( {my_books: response.books});
       } else {
         console.error( "get my books failed:", response);
       }
@@ -36,15 +36,12 @@ export default class MyBooksPage extends React.Component {
   onSelectBook = (book) => {
     console.log( "book cover selected:", book);
     const my_books = [...this.state.my_books, book];
-    const owner = {
-      email: Auth.getEmail(),
-      name: Auth.getUsername(),
-      full_name: Auth.getFullName()
-    };
+    const owner = Auth.get_id();
     BookActions.addBook( {...book, owner})
     .then( (res) => {
       console.log( "add book response:", res);
     });
+    // clear the find book list
     this.setState( {my_books, books:[]});
   };
   onClearSearch = () => {
@@ -67,7 +64,9 @@ export default class MyBooksPage extends React.Component {
           disabled={this.state.is_loading}/>
         {this.state.is_loading?
           <p><img src={Loader} alt="Please wait ...." /></p>
-          :<BookGridSelect books={this.state.books} onSelectBook={this.onSelectBook}/>
+          : <BookGridSelect books={this.state.books} onSelectBook={this.onSelectBook}>
+              Add Book
+            </BookGridSelect>
         }
         { // only show my books if I have books and not currently searching
           this.state.my_books.length && this.state.books.length === 0?

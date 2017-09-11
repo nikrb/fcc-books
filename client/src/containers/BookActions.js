@@ -1,5 +1,22 @@
 import Auth from '../modules/Auth';
+import {checkStatus,parseJSON} from '../modules/util';
 
+// get books paged
+const getBooks = ( payload) => {
+  return fetch( '/api/books', {
+    method: 'post',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': `bearer ${Auth.getToken()}`
+    },
+    body: JSON.stringify( payload)
+  })
+  .then( checkStatus)
+  .then( parseJSON);
+};
+
+// find a book from open library with search term
 const findBook = ( payload) => {
   return fetch( `/api/search`, {
     method: 'post',
@@ -14,7 +31,7 @@ const findBook = ( payload) => {
   .then( parseJSON);
 };
 const getMyBooks = () => {
-  const email = Auth.getEmail();
+  const owner = Auth.get_id();
   return fetch( '/api/mybooks', {
     method: 'post',
     headers: {
@@ -22,7 +39,7 @@ const getMyBooks = () => {
       'Content-Type': 'application/json',
       'Authorization': `bearer ${Auth.getToken()}`
     },
-    body: JSON.stringify( {email})
+    body: JSON.stringify( {owner})
   })
   .then( checkStatus)
   .then( parseJSON);
@@ -55,19 +72,4 @@ const updateUser = (payload) => {
   .then( parseJSON);
 }
 
-function checkStatus(response) {
-  if (response.status >= 200 && response.status < 300) {
-    return response;
-  }
-  const error = new Error(`HTTP Error ${response.statusText}`);
-  error.status = response.statusText;
-  error.response = response;
-  console.error(error); // eslint-disable-line no-console
-  throw error;
-}
-
-function parseJSON(response) {
-  return response.json();
-}
-
-export default { findBook, updateUser, getMyBooks, addBook};
+export default { findBook, updateUser, getBooks, getMyBooks, addBook};

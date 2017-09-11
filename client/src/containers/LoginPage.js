@@ -32,7 +32,7 @@ export default class LoginPage extends React.Component {
     Actions.postLogin( {email, password})
     .then( (response) => {
       console.log( "login response:", response);
-      Auth.authenticateUser( {token: response.token, name: response.user.name, email: email});
+      Auth.authenticateUser( {...response.user, token: response.token}); // ,  name: response.user.name, email: email});
       this.setState( { errors: {}, redirectToReferrer: true});
       this.props.onLogin( {name: response.user.name, email: email});
     })
