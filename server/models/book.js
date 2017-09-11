@@ -3,11 +3,7 @@ const ol = require( '../modules/OLapi');
 
 const BookSchema = new mongoose.Schema({
   cover_olid: String,
-  owner: {
-    email: { type: String},
-    name: {type: String},
-    full_name: {type: String}
-  },
+  owner: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
   title: String,
   cover_url_m: String
 });
@@ -25,7 +21,10 @@ BookSchema.statics.create  = function create( req_body, cb){
       success = false;
       message = "book not saved";
     }
-    if( cb) cb( err, {success, message});
+    book.populate( 'owner', function( err, book) {
+      if( err) console.error( "book owner population failed:", err);
+      if( cb) cb( err, {success, message, book});
+    });
   });
 }
 BookSchema.statics.getBooks = function getBooks( req_body, cb){
@@ -34,6 +33,7 @@ BookSchema.statics.getBooks = function getBooks( req_body, cb){
   this.count({}, function( err, total_rows){
     if( err) console.log( "book schema count failed:", err);
     that.find( {})
+    .populate( 'owner')
     .skip( offset)
     .limit( limit)
     .exec( function( err, books){
@@ -46,12 +46,13 @@ BookSchema.statics.getBooks = function getBooks( req_body, cb){
     });
   });
 }
+
 BookSchema.statics.getMyBooks = function getMyBooks( req_body, cb){
   console.log( "get my books:", req_body);
-  const {email} = req_body;
-  console.log( "get books for owner:", email);
+  const {owner} = req_body;
+  console.log( "get books for owner:", owner);
   // FIXME: is this correct?
-  this.find( {'owner.email':email}, function( err, books){
+  this.find( {owner}).populate( 'owner').exec( function( err, books){
     if( err || !books || books.length === 0){
       if( cb) cb( err, {success:false, message: "books not found"});
     } else {

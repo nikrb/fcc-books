@@ -47,13 +47,9 @@ router.post( '/request', (req, res) => {
 });
 // save a trade
 router.post( '/trade', (req, res) => {
-  const trade = req.body;
-  Book.findOne( {_id: trade.book._id}, function( err, book){
-    if( err || !book) console.error( "post trade find book failed:", err);
-    Trade.saveTrade( req.body, book, function( err, result){
-      if( err || !result) console.error( "save trade failed:", err);
-      res.json( result);
-    });
+  console.log( "post trade save:", req.body);
+  Trade.saveTrade( req.body, function( result){
+    res.json( result);
   });
 });
 
