@@ -1,5 +1,5 @@
 const mongoose = require( 'mongoose');
-const STATUS = ['requested', 'cancelled', 'accepted', 'rejected'];
+const STATUS = ['requested', 'cancelled', 'accepted', 'rejected', 'deleteme'];
 
 const TradeSchema = new mongoose.Schema({
   source_user: {type: mongoose.Schema.Types.ObjectId, ref: 'User'}, // { email: String, name: String, full_name: String},
