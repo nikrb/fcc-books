@@ -31,7 +31,7 @@ const findBook = ( payload) => {
   .then( parseJSON);
 };
 const getMyBooks = () => {
-  const email = Auth.getEmail();
+  const owner = Auth.get_id();
   return fetch( '/api/mybooks', {
     method: 'post',
     headers: {
@@ -39,7 +39,7 @@ const getMyBooks = () => {
       'Content-Type': 'application/json',
       'Authorization': `bearer ${Auth.getToken()}`
     },
-    body: JSON.stringify( {email})
+    body: JSON.stringify( {owner})
   })
   .then( checkStatus)
   .then( parseJSON);

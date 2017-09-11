@@ -10,29 +10,18 @@ import loader from '../images/loader.gif';
 export default class TradePage extends React.Component {
   state = {
     books: [],
-    my_requests: [],
-    requests_to_me: [],
+    requests: [],
     show_my_requests: false,
     show_requests_to_me: false,
-    limit: 3,
+    limit: 20,
     current_page_no: 0,
     total_rows: 0
   };
   componentWillMount = () => {
-    TradeActions.getMyRequests( {email:Auth.getEmail()})
-    .then( (response) => {
-      console.log( "get my requests:", response);
-      const requests = response.reduce((acc, trade) => {
-        if( trade.source_user.email === Auth.getEmail()){
-          acc.my_requests.push( trade);
-        }
-        // FIXME: testing
-        if( trade.target_user.email === Auth.getEmail()) {
-          acc.requests_to_me.push( trade);
-        }
-        return acc;
-      }, {my_requests:[],requests_to_me:[]});
-      this.setState( {...requests});
+    TradeActions.getMyRequests( {_id:Auth.get_id()})
+    .then( (requests) => {
+      console.log( "get my requests:", requests);
+      this.setState( {requests});
     });
     this.getPagedBooks(0);
   };
@@ -55,26 +44,33 @@ export default class TradePage extends React.Component {
   // create a trade request
   onSelectBook = (book) => {
     console.log( "book selected for trade:", book);
-    const me = {email: Auth.getEmail(), name: Auth.getUsername(), full_name:Auth.getFullName()};
-    const trade = { source_user: me, target_user: book.owner, book, status:"requested"};
+    const trade = { source_user: Auth.get_id(), target_user: book.owner._id,
+      book:book._id, status:"requested"};
     TradeActions.saveTrade( trade)
     .then( (response) => {
       console.log( "save trade response:", response);
+      this.setState( {requests: this.state.requests.concat( response)});
     });
   };
   onCancelTrade = ( trade) => {
     trade.status = "cancelled";
-    this.saveTrade( trade);
+    this.saveTrade( trade)
+    .then( (response) => {
+      console.log( "save trade response:", response);
+      const requests = this.state.requests.filter( t => t._id !== response._id);
+      this.setState( { requests});
+    });
   };
   onAcceptTrade = ( trade) => {
     trade.status = "accepted";
-    this.saveTrade( trade);
+    this.saveTrade( trade)
+    .then( (response) => {
+      console.log( "accept trade response:", response);
+    });
   };
   saveTrade = (trade) => {
-    TradeActions.saveTrade( trade)
-    .then( (response) => {
-      console.log( "cancel trade response:", response);
-    });
+    // FIXME: do we need to use the _id or can we just pass the whole object?
+    return TradeActions.saveTrade( trade);
   };
   onMyTradeRequestsClicked = (e) => {
     const {show_my_requests} = this.state;
@@ -85,45 +81,57 @@ export default class TradePage extends React.Component {
     this.setState( {show_my_requests:false, show_requests_to_me: !show_requests_to_me});
   };
   render = () => {
+    const {show_my_requests,show_requests_to_me} = this.state;
     const my_requests_style = {
-      display: this.state.show_my_requests?"block":"none"
+      display: show_my_requests?"block":"none",
+      margin: "0 auto 1em"
     };
     const requests_to_me_style = {
-      display: this.state.show_requests_to_me?"block":"none"
+      display: show_requests_to_me?"block":"none",
+      margin: "0 auto 1em"
     };
-    const my_requests = this.state.my_requests.map( (mr, i) => {
-      return <RequestCard key={i} data={mr} text={mr.book.title}
-        onCrossClicked={this.onCancelTrade} />;
-    });
-    const requests_to_me = this.state.requests_to_me.map( (rtm, i) => {
-      return (<RequestToMeCard key={i} data={rtm} text={rtm.book.title}
-        onCrossClicked={this.onCancelTrade}
-        onTickClicked={this.onAcceptTrade}
-        />
-      );
-    });
+    const my_id = Auth.get_id();
+    const my_requests = this.state.requests
+      .filter(r => r.source_user._id === my_id && r.status !== "cancelled")
+      .map( (r, i) => {
+        return <RequestCard key={i} data={r} text={r.book.title}
+          onCrossClicked={this.onCancelTrade} />;
+      });
+    const requests_to_me = this.state.requests
+      .filter( r => r.target_user._id === my_id && r.status !== "cancelled")
+      .map( (r, i) => {
+        return (<RequestToMeCard key={i} data={r} text={r.book.title}
+          onCrossClicked={this.onCancelTrade}
+          onTickClicked={this.onAcceptTrade}
+          />
+        );
+      });
     const request_wrapper = {
       display: "flex",
       flexDirection: "row",
-      margin: "0px auto 2em"
+      margin: "0px auto 1em"
     };
-    console.log( "requests to me count:", requests_to_me_style);
+    const btn = {
+      fontSize: "1em"
+    };
+    const up_arrow = String.fromCharCode( 9650);
+    const down_arrow = String.fromCharCode( 9660);
     return (
       <div className="App">
         <h1>Trade</h1>
         <div style={request_wrapper}>
-          <button type="button" onClick={this.onMyTradeRequestsClicked}>
-            My Trade Requests
+          <button type="button" style={btn} onClick={this.onMyTradeRequestsClicked}>
+            My Trade Requests {show_my_requests?down_arrow:up_arrow}
           </button>
-          <button type="button" onClick={this.onTradeRequestsToMeClicked}>
-            Trade Requests to me
+          <button type="button" style={btn} onClick={this.onTradeRequestsToMeClicked}>
+            Trade Requests to me {show_requests_to_me?down_arrow:up_arrow}
           </button>
         </div>
         <div style={my_requests_style}>
-          {my_requests}
+          {my_requests.length?my_requests:"No Requests"}
         </div>
         <div style={requests_to_me_style} >
-          {requests_to_me}
+          {requests_to_me.length?requests_to_me:"No Requests"}
         </div>
 
         {this.state.total_rows?
