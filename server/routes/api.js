@@ -50,7 +50,7 @@ router.post( '/trade', (req, res) => {
   console.log( "post trade:", req.body);
   const trade = req.body;
   Book.findOne( {_id: trade.book._id}, function( err, book){
-    Trade.saveTrade( req_body, book, function( err, result){
+    Trade.saveTrade( req.body, book, function( err, result){
       if( err || !result) console.error( "save trade failed:", err);
       res.json( result);
     });
