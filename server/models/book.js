@@ -13,8 +13,9 @@ const BookSchema = new mongoose.Schema({
 });
 
 BookSchema.statics.create  = function create( req_body, cb){
-  console.log( "add book:", req.body);
-  const {owner, title, cover_olid, cover_url_m} = req.body;
+  console.log( "add book:", req_body);
+  const {owner, title, cover_olid, cover_url_m} = req_body;
+  const Book = mongoose.model( 'Book');
   const book = new Book( {owner, title, cover_olid, cover_url_m});
   book.save( (err) => {
     let message = "book added",

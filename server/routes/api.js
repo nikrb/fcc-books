@@ -13,7 +13,7 @@ router.post( '/books', (req, res) => {
 });
 // user adds a new book to their library
 router.post( '/book', (req, res) => {
-  Book.createFromJSON( req.body, function( err, docs){
+  Book.create( req.body, function( err, docs){
     if( err) console.error( "book create from json failed:", err);
     res.json( docs);
   });
@@ -47,9 +47,9 @@ router.post( '/request', (req, res) => {
 });
 // save a trade
 router.post( '/trade', (req, res) => {
-  console.log( "post trade:", req.body);
   const trade = req.body;
   Book.findOne( {_id: trade.book._id}, function( err, book){
+    if( err || !book) console.error( "post trade find book failed:", err);
     Trade.saveTrade( req.body, book, function( err, result){
       if( err || !result) console.error( "save trade failed:", err);
       res.json( result);
