@@ -24,22 +24,20 @@ TradeSchema.statics.getUserRequests = function getUserRequests( req_body, cb){
 
 TradeSchema.statics.saveTrade = function saveTrade( req_body, cb){
   this.findOne( {_id: req_body._id}, function( err, trade){
+    const {source_user, target_user, book, status} = req_body;
     if( trade) {
-      const {source_user, target_user, book, status} = req_body;
-      if( source_user && source_user.email !== trade.source_user.email)
-        trade.source_user = source_user;
-      if( target_user && target_user.email !== trade.target_user.email)
-        trade.target_user = target_user;
-      if( book && book.cover_olid !== trade.book.cover_olid) trade.book = book;
-      if( status && status !== trade.status) trade.status = status;
+      trade.source_user = source_user;
+      trade.target_user = target_user;
+      trade.book = book;
+      trade.status = status;
     } else {
-      const {source_user, target_user, book, status} = trade;
-      trade = new this( {source_user, target_user, book, status});
+      const Trade = mongoose.model( 'Trade');
+      trade = new Trade( {source_user, target_user, book, status});
     }
-    console.log( `save trade:`, new_trade);
-    new_trade.save( function( err){
+    console.log( `save trade:`, trade);
+    trade.save( function( err){
       if( err) console.error( "new trade save failed:", err);
-      if( cb) cb( err, new_trade);
+      if( cb) cb( err, trade);
     });
   });
 }
