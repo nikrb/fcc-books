@@ -13,7 +13,7 @@ export default class TradePage extends React.Component {
     requests: [],
     show_my_requests: false,
     show_requests_to_me: false,
-    limit: 20,
+    limit: 6,
     current_page_no: 0,
     total_rows: 0
   };
