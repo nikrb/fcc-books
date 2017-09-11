@@ -52,8 +52,8 @@ export default class App extends Component {
             <ul>
               <div className="nav-box">
                 <li><NavLink to="/" exact>Home</NavLink></li>
-                <li><NavLink to="/trade" >Trade</NavLink></li>
                 <li><NavLink to="/mybooks" >MyBooks</NavLink></li>
+                <li><NavLink to="/trade" >Trade</NavLink></li>
               </div>
               <div className="nav-box">
                 { Auth.isUserAuthenticated()?
