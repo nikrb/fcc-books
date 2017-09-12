@@ -14,7 +14,7 @@ export default class RequestToMeCard extends React.Component {
         bg_colour = "lightgreen";
         break;
       case 'rejected':
-        bg_colour = "tomato";
+        bg_colour = "salmon";
         break;
       default:
         bg_colour = "linen";
