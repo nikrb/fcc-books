@@ -18,8 +18,8 @@ export default class BookGridSelect extends React.Component {
       display: "flex",
       flexDirection: "row",
       justifyContent: "flex-start",
-      alignItems: "stretch",
-      flexWrap: "wrap"
+      flexWrap: "wrap",
+      flex: "0 0 100%"
     };
     return (
       <div style={book_grid}>
