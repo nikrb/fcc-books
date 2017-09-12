@@ -11,10 +11,7 @@ export default class BookCover extends React.Component {
       border: "1px solid lightgrey"
     };
     const text_style = {
-      display:"flex",
-      flexDirection:"row",
-      justifyContent: "center",
-      flexWrap: "wrap"
+      textAlign: "center"
     };
     const image_url = book.cover_olid?book.cover_url_m:"http://via.placeholder.com/180x180?text=noimage";
     // started book.owner.name for testing, but there is no owner for open library
