@@ -6,7 +6,7 @@ export default class BookCover extends React.Component {
     const wrapper = {
       display: "flex",
       flexDirection: "column",
-      flexBasis: "170px",
+      flex: "0 1 10%",
       margin: "5px",
       border: "1px solid lightgrey"
     };
