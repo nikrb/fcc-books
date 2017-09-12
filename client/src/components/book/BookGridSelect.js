@@ -2,7 +2,7 @@ import React from 'react';
 import BookCover from './BookCover';
 import BookSelect from './BookSelect';
 
-export default class BookGrid extends React.Component {
+export default class BookGridSelect extends React.Component {
   onSelectButton = (e, book) => {
     this.props.onSelectBook( e, book);
   };
