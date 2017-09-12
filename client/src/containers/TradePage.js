@@ -27,7 +27,7 @@ export default class TradePage extends React.Component {
   };
   getPagedBooks = ( page_no) => {
     const {limit} = this.state;
-    BookActions.getBooks( {offset:page_no*limit, limit})
+    BookActions.getBooks( {offset:page_no*limit, limit, owner: Auth.get_id()})
     .then( (response) => {
       console.log( "get paged books response:", response);
       const {total_rows} = response;
@@ -42,8 +42,9 @@ export default class TradePage extends React.Component {
     this.getPagedBooks( page_no);
   };
   // create a trade request
-  onSelectBook = (book) => {
+  onSelectBook = (e, book) => {
     console.log( "book selected for trade:", book);
+    e.target.disabled = true;
     const trade = { source_user: Auth.get_id(), target_user: book.owner._id,
       book:book._id, status:"requested"};
     TradeActions.saveTrade( trade)
