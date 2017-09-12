@@ -48,10 +48,6 @@ export default class MyBooksPage extends React.Component {
     this.setState( {books: [], is_loading:false});
   };
   render = () => {
-    const wrapper = {
-      margin: "10px",
-      alignItems: "center"
-    };
     return (
       <div className="App">
         <h1>My Books</h1>
