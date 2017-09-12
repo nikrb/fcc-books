@@ -44,7 +44,8 @@ button {
   margin: 5px;
   font-size: 1.5em;
   font-weight: bold;
-  background: linear-gradient( to top, limegreen, lime); /* lawngreen, springgreen); */
+  background: linear-gradient( -40deg, aqua, deepskyblue);
+    /* darkturquoise, cyan); /* limegreen, lime  lawngreen, springgreen  */
   border-radius: 10px;
 }
 button:hover {
