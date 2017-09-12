@@ -50,13 +50,10 @@ export default class MyBooksPage extends React.Component {
   render = () => {
     const wrapper = {
       margin: "10px",
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      userSelect: "none"
+      alignItems: "center"
     };
     return (
-      <div style={wrapper}>
+      <div className="App">
         <h1>My Books</h1>
         <BookSearch book_title={this.state.book_title}
           onBookTitleChange={this.onBookTitleChange}
