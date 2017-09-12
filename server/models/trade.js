@@ -10,7 +10,7 @@ const TradeSchema = new mongoose.Schema({
 });
 
 TradeSchema.statics.getUserRequests = function getUserRequests( req_body, cb){
-  this.find( { status: {$in: ['requested','accepted']}, $or : [
+  this.find( { status: {$ne: 'cancelled'}, $or : [
       { 'source_user._id': req_body.source_user},
       { 'target_user._id': req_body.target_user}
     ]})
