@@ -22,12 +22,18 @@ TradeSchema.statics.getUserRequests = function getUserRequests( req_body, cb){
         if( err || requests.length === 0){
           console.error( "find user requests failed:", err);
         }
+        requests.sort( (a,b) => {
+          if( a.book.title < b.book.title) return -1;
+          if( a.book.title > b.book.title) return 1;
+          return 0;
+        });
         if( cb) cb( err, requests);
       }
     );
 }
 
 TradeSchema.statics.saveTrade = function saveTrade( req_body, cb){
+  // FIXME: findById?
   this.findOne( {_id: req_body._id}, function( err, trade){
     if( err) console.log( "save trade find failed:", err);
     const {source_user, target_user, book, status} = req_body;
