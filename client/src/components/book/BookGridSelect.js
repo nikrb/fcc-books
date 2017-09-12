@@ -3,8 +3,8 @@ import BookCover from './BookCover';
 import BookSelect from './BookSelect';
 
 export default class BookGrid extends React.Component {
-  onSelectButton = (book) => {
-    this.props.onSelectBook( book);
+  onSelectButton = (e, book) => {
+    this.props.onSelectBook( e, book);
   };
   render = () => {
     const book_covers = this.props.books.map( (b,i) => {

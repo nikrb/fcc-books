@@ -2,7 +2,7 @@ import React from 'react';
 
 export default class BookSelect extends React.Component {
   onClick = (e) => {
-    this.props.onClick( this.props.data);
+    this.props.onClick( e, this.props.data);
   };
   render = () => {
     return (

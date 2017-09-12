@@ -33,7 +33,7 @@ export default class MyBooksPage extends React.Component {
       this.setState( {books: [...response], is_loading:false});
     });
   };
-  onSelectBook = (book) => {
+  onSelectBook = (e, book) => {
     console.log( "book cover selected:", book);
     const my_books = [...this.state.my_books, book];
     const owner = Auth.get_id();
