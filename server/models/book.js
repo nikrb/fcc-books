@@ -29,10 +29,11 @@ BookSchema.statics.create  = function create( req_body, cb){
 }
 BookSchema.statics.getBooks = function getBooks( req_body, cb){
   const that = this;
-  const {limit, offset} = req_body;
-  this.count({}, function( err, total_rows){
+  const {limit, offset,owner} = req_body;
+  console.log( "get all books missing owner:", owner);
+  this.count({ owner: {$ne : owner}}, function( err, total_rows){
     if( err) console.log( "book schema count failed:", err);
-    that.find( {})
+    that.find( {owner: { '$ne': owner}})
     .populate( 'owner')
     .skip( offset)
     .limit( limit)
@@ -50,7 +51,6 @@ BookSchema.statics.getBooks = function getBooks( req_body, cb){
 BookSchema.statics.getMyBooks = function getMyBooks( req_body, cb){
   console.log( "get my books:", req_body);
   const {owner} = req_body;
-  console.log( "get books for owner:", owner);
   // FIXME: is this correct?
   this.find( {owner}).populate( 'owner').exec( function( err, books){
     if( err || !books || books.length === 0){
