@@ -32,10 +32,6 @@ TradeSchema.statics.saveTrade = function saveTrade( req_body, cb){
     if( err) console.log( "save trade find failed:", err);
     const {source_user, target_user, book, status} = req_body;
     if( trade) {
-      // FIXME: just the status should change?
-      // trade.source_user = source_user;
-      // trade.target_user = target_user;
-      // trade.book = book;
       trade.status = status;
     } else {
       const Trade = mongoose.model( 'Trade');
