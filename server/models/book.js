@@ -5,14 +5,15 @@ const BookSchema = new mongoose.Schema({
   cover_olid: String,
   owner: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
   title: String,
+  author: String,
   cover_url_m: String
 });
 
 BookSchema.statics.create  = function create( req_body, cb){
   console.log( "add book:", req_body);
-  const {owner, title, cover_olid, cover_url_m} = req_body;
+  const {owner, title, author, cover_olid, cover_url_m} = req_body;
   const Book = mongoose.model( 'Book');
-  const book = new Book( {owner, title, cover_olid, cover_url_m});
+  const book = new Book( {owner, title, author, cover_olid, cover_url_m});
   book.save( (err) => {
     let message = "book added",
         success = true;
@@ -62,8 +63,8 @@ BookSchema.statics.getMyBooks = function getMyBooks( req_body, cb){
 }
 // open library book search for cover pics
 BookSchema.statics.search = function search( req_body, cb){
-  const {title} = req_body;
-  ol.getBook( title)
+  const {title, author} = req_body;
+  ol.getBook( title, author)
   .then( (response) => {
     const data = response.docs.map( (d) => {
       let cover_olid = "noimage";
@@ -73,8 +74,13 @@ BookSchema.statics.search = function search( req_body, cb){
         base_url = ol.getCoverUrl( d.edition_key);
         if( base_url) cover_olid = d.edition_key;
       }
+      let rauth = "No Author";
+      if( d.author_name){
+        rauth = d.author_name[0];
+      }
       return ({
         title:d.title_suggest,
+        author: rauth,
         cover_olid: cover_olid,
         // cover_url_s: base_url+"-S.jpg",
         cover_url_m: base_url+"-M.jpg"

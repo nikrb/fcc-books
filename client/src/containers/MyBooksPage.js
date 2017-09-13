@@ -9,7 +9,11 @@ export default class MyBooksPage extends React.Component {
     my_books: [],
     // books returned from open library search
     books: [],
-    book_title: "",
+    // our search texts
+    search_book: {
+      book_title: "",
+      book_author: ""
+    },
     is_loading: false
   };
   componentWillMount = () => {
@@ -23,12 +27,19 @@ export default class MyBooksPage extends React.Component {
       }
     });
   };
-  onBookTitleChange = (e) => {
-    this.setState( {book_title: e.target.value});
+  onBookChange = (e) => {
+    const {name,value} = e.target;
+    const {search_book} = this.state;
+    search_book[name] = value;
+    this.setState( {search_book});
   };
   onFindBook = (e) => {
     this.setState( {is_loading: true});
-    BookActions.findBook( {title: this.state.book_title})
+    const {book_title,book_author} = this.state.search_book;
+    const payload = {};
+    if( book_title) payload.title = book_title;
+    if( book_author) payload.author = book_author;
+    BookActions.findBook( payload)
     .then( (response) => {
       this.setState( {books: [...response], is_loading:false});
     });
@@ -51,8 +62,9 @@ export default class MyBooksPage extends React.Component {
     return (
       <div className="App">
         <h1>My Books</h1>
-        <BookSearch book_title={this.state.book_title}
-          onBookTitleChange={this.onBookTitleChange}
+        <BookSearch book_title={this.state.search_book.book_title}
+          book_author={this.state.search_book.book_author}
+          onBookChange={this.onBookChange}
           onFindBook={this.onFindBook}
           onClear={this.onClearSearch}
           disabled={this.state.is_loading}/>

@@ -20,6 +20,7 @@ export default class BookCover extends React.Component {
       <div style={wrapper}>
         {this.props.children}
         <span style={text_style}>{book.title}</span>
+        <span style={text_style}>{book.author}</span>
         {book.owner?<span style={text_style}>{book.owner.name}</span>:null}
         <img src={image_url} alt='no img' />
       </div>
