@@ -72,6 +72,13 @@ export default class TradePage extends React.Component {
     this.saveTrade( trade)
     .then( (response) => {
       console.log( "accept trade response:", response);
+      const requests = this.state.requests.map( (r) => {
+        if( r._id === trade._id){
+          return trade;
+        }
+        return r;
+      });
+      this.setState( {requests});
     });
   };
   saveTrade = (trade) => {
