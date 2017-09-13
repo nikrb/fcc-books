@@ -1,4 +1,6 @@
 import React from 'react';
+import SymbolButton from '../SymbolButton';
+
 export default class RequestCard extends React.Component {
   onCrossClicked = (e) => {
     this.props.onCrossClicked( this.props.data);
@@ -35,7 +37,9 @@ export default class RequestCard extends React.Component {
     return (
       <div style={wrapper}>
         {this.props.text}
-        <div style={cross_box} onClick={this.onCrossClicked}>{cross_mark}</div>
+        <SymbolButton style={cross_box} onClick={this.onCrossClicked}>
+          {cross_mark}
+        </SymbolButton>
       </div>
     );
   };
