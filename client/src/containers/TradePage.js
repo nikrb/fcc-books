@@ -5,7 +5,6 @@ import BookActions from './BookActions';
 import TradeActions from './TradeActions';
 import {TradeList} from '../components/trade';
 import Pager from '../components/Pager';
-import loader from '../images/loader.gif';
 
 export default class TradePage extends React.Component {
   state = {
@@ -80,7 +79,6 @@ export default class TradePage extends React.Component {
     });
   };
   saveTrade = (trade) => {
-    // FIXME: do we need to use the _id or can we just pass the whole object?
     return TradeActions.saveTrade( trade);
   };
   render = () => {
@@ -89,25 +87,15 @@ export default class TradePage extends React.Component {
         <h1>Trade</h1>
         <TradeList my_id={Auth.get_id()} requests={this.state.requests} />
 
-        {this.state.total_rows?
-          this.state.is_loading?
-            <img src={loader} alt="" />
-            :
-            <Pager handlePageSelect={this.handlePageSelected} page_no={this.state.current_page_no}
-              total_rows={this.state.total_rows} display_count={this.state.limit} />
-          :null
-        }
+        <Pager handlePageSelect={this.handlePageSelected} page_no={this.state.current_page_no}
+          total_rows={this.state.total_rows} display_count={this.state.limit}
+          is_loading={this.state.is_loading} />
         <BookGridSelect books={this.state.books} onSelectBook={this.onSelectBook} >
           Trade
         </BookGridSelect>
-        {this.state.total_rows?
-          this.state.is_loading?
-            <img src={loader} alt="" />
-            :
-            <Pager handlePageSelect={this.handlePageSelected} page_no={this.state.current_page_no}
-              total_rows={this.state.total_rows} display_count={this.state.limit} />
-          :null
-        }
+        <Pager handlePageSelect={this.handlePageSelected} page_no={this.state.current_page_no}
+          total_rows={this.state.total_rows} display_count={this.state.limit}
+          is_loading={this.state.is_loading} />
       </div>
     );
   };

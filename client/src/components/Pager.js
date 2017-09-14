@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import loader from '../images/loader.gif';
 
 export default class Pager extends React.Component {
   static propTypes = {
@@ -76,23 +77,31 @@ export default class Pager extends React.Component {
     const right_arrow = String.fromCharCode( 9654);
     return (
       <div style={wrapper}>
-        <button type="button" style={btn} onClick={this.handleClick}
-          value='first_page' disabled={this.props.page_no === 0} >
-            {left_arrow+left_arrow}
-        </button>
-        <button type="button" style={btn} onClick={this.handleClick}
-          value='prev_page' disabled={this.props.page_no === 0} >
-            {left_arrow}
-        </button>
-        {numbered_page_buttons}
-        <button type="button" style={btn} onClick={this.handleClick}
-          value='next_page' disabled={this.props.page_no === total_pages-1} >
-            {right_arrow}
-        </button>
-        <button type="button" style={btn} onClick={this.handleClick}
-          value='last_page' disabled={this.props.page_no === total_pages-1} >
-            {right_arrow}{right_arrow}
-        </button>
+        { this.props.total_rows?
+            this.props.is_loading?
+            <img src={loader} alt="loading..." />
+            :
+            <div>
+              <button type="button" style={btn} onClick={this.handleClick}
+                value='first_page' disabled={this.props.page_no === 0} >
+                  {left_arrow+left_arrow}
+              </button>
+              <button type="button" style={btn} onClick={this.handleClick}
+                value='prev_page' disabled={this.props.page_no === 0} >
+                  {left_arrow}
+              </button>
+              {numbered_page_buttons}
+              <button type="button" style={btn} onClick={this.handleClick}
+                value='next_page' disabled={this.props.page_no === total_pages-1} >
+                  {right_arrow}
+              </button>
+              <button type="button" style={btn} onClick={this.handleClick}
+                value='last_page' disabled={this.props.page_no === total_pages-1} >
+                  {right_arrow}{right_arrow}
+              </button>
+            </div>
+          :null
+        }
       </div>
     );
   };
