@@ -13,7 +13,9 @@ export default class BookCover extends React.Component {
     const text_style = {
       textAlign: "center"
     };
-    const image_url = book.cover_olid?book.cover_url_m:"http://via.placeholder.com/180x180?text=noimage";
+    const image_url = book.cover_olid?book.cover_url_m
+                          :"http://via.placeholder.com/180x180?text=noimage";
+    // FIXME: remove the owner name after testing
     // started book.owner.name for testing, but there is no owner for open library
     // book search
     return (
