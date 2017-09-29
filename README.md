@@ -1,4 +1,4 @@
-fcc project manage a book trading club
+fcc project manage a book trading club [demo](https://knik-fcc-books.herokuapp.com/)
 
 # User Stories
 1. I can view all books posted by every user.
