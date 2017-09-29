@@ -85,7 +85,9 @@ export default class TradePage extends React.Component {
     return (
       <div className="App">
         <h1>Trade</h1>
-        <TradeList my_id={Auth.get_id()} requests={this.state.requests} />
+        <TradeList my_id={Auth.get_id()} requests={this.state.requests}
+          onCancelTrade={this.onCancelTrade}
+          onAcceptTrade={this.onAcceptTrade} />
 
         <Pager handlePageSelect={this.handlePageSelected} page_no={this.state.current_page_no}
           total_rows={this.state.total_rows} display_count={this.state.limit}

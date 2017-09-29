@@ -34,7 +34,7 @@ export default class TradeList extends React.Component {
       .map( (r, i) => {
         if( r.status === "requested") my_highlight = true;
         return <RequestCard key={i} data={r} text={r.book.title}
-          onCrossClicked={this.onCancelTrade}
+          onCrossClicked={this.props.onCancelTrade}
           highlight={r.status==='requested'} />;
       });
     const requests_to_me = requests
@@ -42,8 +42,8 @@ export default class TradeList extends React.Component {
       .map( (r, i) => {
         if( r.status === "requested") to_me_highlight = true;
         return (<RequestToMeCard key={i} data={r} text={r.book.title}
-          onCrossClicked={this.onCancelTrade}
-          onTickClicked={this.onAcceptTrade}
+          onCrossClicked={this.props.onCancelTrade}
+          onTickClicked={this.props.onAcceptTrade}
           highlight={r.status==="requested"}/>
         );
       });
